@@ -5,10 +5,14 @@ class MembershipsController < ApplicationController
 
 
   def create
-    Membership.where(gym_id: params[:membership][:gym_id]).where(client_id: params[:membership][:client_id]).present ? 
-    # membership = Membership.new(membership_params)
-    membership = Membership.create(membership_params)
+    if
+    Membership.where(gym_id: params[:membership][:gym_id]).where(client_id: params[:membership][:client_id]).present?  
+        
+   render json: {error:" A client can have only one membership with gym"}
+    else
+     membership = Membership.create(membership_params)
     render json: membership, status: :created
+    end
   end
 
   private
